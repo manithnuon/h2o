@@ -116,7 +116,6 @@ public abstract class Layer extends Iced {
   private class Dropout {
     private transient Random _rand;
     private transient byte[] _bits;
-    public transient Layer _previous;
 
     private Dropout(int units) {
       _bits = new byte[(units+7)/8];
