@@ -14,26 +14,6 @@ import hex.drf.DRF
  *  - Matrix product.
  */
 object Examples {
-
-  // Call in the context of main classloader
-  def main(args: Array[String]):Unit = {
-    Boot.main(classOf[Examples], args)
-  }
-
-  // Call in the context of H2O classloader
-  def userMain(args: Array[String]):Unit = {
-    H2O.main(args)
-    example1()
-    example2()
-    example3()
-    water.api.dsl.H2ODsl.shutdown()
-  }
-  
-  def banner(id:Int, desc: String) = {
-    println("\n==== Example #"+id+" ====\n== \""+desc+"\"" )
-    println(  "====\n")
-  }
-  
   /** Compute average for given column. */
   def example1() = {
     banner(1, "Compute average of 2nd column in cars dataset")
@@ -42,7 +22,7 @@ object Examples {
     /** Mutable class */
     class Avg(var sum:scala.Double, var cnt:Int) extends Iced;
     
-    val f = parse("../smalldata/cars.csv")
+    val f = parse(ffind("smalldata/cars.csv"))
     val r = f collect ( new Avg(0,0), 
       new T_T_Collect[Avg] {
 	      override def apply(acc:Avg, rhs:Row):Avg = {
@@ -88,24 +68,6 @@ makes a prediction over train data and compute MSE of prediction."""")
 
     println("RSS: " + rss)
   }
-  
-  /** Compute quantiles for all vectors in a given frame. */ 
-  def example3() = {
-    banner(3, "Call quantiles API and compute quantiles for all columns in cars dataset.")
-    import water.api.dsl.H2ODsl._
-    val f = parse("../private/cars.csv")
-    
-    // Iterate over columns, pick only non-enum column and compute quantile for the column
-    for (columnId <-  0 until f.ncol) {
-      val colname = f.frame().names()(columnId)
-      if (f.frame().vecs()(columnId).isEnum()) {
-    	  println("Column '" + colname + "' is enum => skipped!")
-      } else {
-	      val q = quantiles(f, columnId)
-	      println("Column '" + colname + "' quantile is " + q)
-      }
-    }   
-  }
 
   /** Simple example of deep learning model builder. */
   def example4() = {
@@ -126,7 +88,6 @@ makes a prediction over train data and compute MSE of prediction."""")
       seed = seed
       mini_batch = 0
       force_load_balance = false
-      replicate_training_data = true
       shuffle_training_data = true
       score_training_samples = 0
       score_validation_samples = 0
@@ -151,7 +112,6 @@ makes a prediction over train data and compute MSE of prediction."""")
     try {
       example1()
       example2()
-      example3()
       example4()
     } catch {
       case t:Throwable => t.printStackTrace() // Simple debug

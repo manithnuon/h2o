@@ -289,8 +289,8 @@ trait T_H2O_Env[K<:HexKey, VT <: DFrame] { // Operating with only given represen
   def jobs() = { 
     val aj = Job.all()
     aj foreach { j:Job =>
-      val progress = if (!j.isRunning()) j.getState().toString else j.progress()*100+" %" 
-      println(j.description + " | " + progress)
+      // val progress = if (!j.isRunning()) j.getState().toString else j.progress()*100+" %"
+      println(j.description)
       }
   }
   // We need shutdown for sure ! :-)
