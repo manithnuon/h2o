@@ -16,7 +16,7 @@ Objects can be created by calls of the form \code{new("H2OPerfModel", ...)}.
   \describe{
     \item{\code{cutoffs}:}{A numeric vector of threshold values.}
     \item{\code{measure}:}{A numeric vector of performance values corresponding to the threshold values. The specific performance measure is given in \code{perf}.}
-    \item{\code{perf}:}{A character string indicating the performance measure used to evaluate the model. One of either "F1", "accuracy", "precision", "recall", "specificity", or "max_per_class_error". See \link{\code{h2o.performance}} for a detailed description of each.}
+    \item{\code{perf}:}{A character string indicating the performance measure used to evaluate the model. One of either "F1", "accuracy", "precision", "recall", "specificity", or "max_per_class_error". See \code{\link{h2o.performance}} for a detailed description of each.}
     \item{\code{model}:}{Object of class \code{"list"} containing the following elements:
       \itemize{
       \item{\code{auc}: Area under the curve.}
